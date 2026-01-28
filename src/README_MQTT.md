@@ -2,14 +2,14 @@
 
 ## Varför jag skapade denna instruktion
 
-Jag har tagit fram denna instruktion för att **MQTT publish/subscribe-mönstret är en grundläggande byggsten i IoT-processkedjan**. Som student inom IoT insåg jag att förståelsen för hur sensorer, enheter och tjänster kommunicerar med varandra är avgörande för att kunna bygga fungerande IoT-system.
+Jag har tagit fram denna instruktion för att **MQTT publish/subscribe-mönstret är en grundläggande byggsten i IoT-processkedjan**. Inom IoT är förståelsen för hur sensorer, enheter och tjänster kommunicerar med varandra avgörande för att kunna bygga fungerande IoT-system.
 
 I en typisk IoT-arkitektur behöver jag kunna:
 - **Samla in data** från sensorer (publisher)
 - **Distribuera data** via en meddelandebroker
 - **Reagera på data** i mottagande tjänster (subscriber)
 
-Genom att skapa denna steg-för-steg-guide ville jag dokumentera min egen inlärningsprocess och samtidigt ha en referens jag kan återvända till. MQTT är det protokoll som används i allt från smarta hem till industriella IoT-lösningar, så att behärska detta är en viktig kompetens för min framtida karriär.
+Genom att skapa denna steg-för-steg-guide ville jag dokumentera min egen inlärningsprocess och samtidigt ha en referens jag kan återvända till. MQTT är det protokoll som används i allt från smarta hem till industriella IoT-lösningar, så att behärska detta är en viktig kompetens.
 
 ---
 
@@ -409,6 +409,7 @@ Ta bort allt (inklusive volymer):
 ```bash
 docker compose down -v
 ```
+
 
 docker compose build --no-cache
 docker compose up -d
