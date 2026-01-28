@@ -236,36 +236,179 @@ python mqtt-broadcaster.py
 
 ___________________________________________
 
-edu-python-in-docker
-Instructions
-Prepare
+# edu-python-in-docker Setup Instructions
+
+> 🐳 **Docker-baserad labbmiljö för IoT-nätverksprotokoll**
+
+---
+
+## 📋 Innehåll
+
+1. [Förberedelser](#1-förberedelser)
+2. [Starta Docker-miljön](#2-starta-docker-miljön)
+3. [Kontrollera IP-adresser](#3-kontrollera-ip-adresser)
+4. [Logga in på Listeners (Klient 1 & 2)](#4-logga-in-på-listeners-klient-1--2)
+5. [Logga in på Broadcaster](#5-logga-in-på-broadcaster)
+6. [Bygga om maskinerna](#6-bygga-om-maskinerna)
+
+---
+
+## 1. Förberedelser
+
+Klona repot och byt till rätt branch:
+
+```bash
 cd ~
 cd ws
 git clone https://github.com/miwashi-edu/edu-python-in-docker.git
 cd edu-python-in-docker
 git checkout level-2
+```
+
+---
+
+## 2. Starta Docker-miljön
+
+Starta alla containers i bakgrunden:
+
+```bash
 docker compose up -d
+```
+
+Verifiera att alla containers körs:
+
+```bash
 docker ps
-Check IP adreesses
-docker inspect iotnet # read the json produced
-Login to client
-Client 1
-ssh -p 2223 dev@localhost   # password dev
+```
+
+Du bör se tre containers igång (client1, client2, broadcaster + mosquitto broker).
+
+---
+
+## 3. Kontrollera IP-adresser
+
+Inspektera nätverket för att hitta IP-adresser:
+
+```bash
+docker inspect iotnet
+```
+
+> 📝 **Tips:** Läs JSON-outputen för att hitta IP-adresserna till respektive container.
+
+---
+
+## 4. Logga in på Listeners (Klient 1 & 2)
+
+### Klient 1 (Listener)
+
+```bash
+ssh -p 2223 dev@localhost
+```
+
+| Fält | Värde |
+|------|-------|
+| **Port** | 2223 |
+| **Användare** | dev |
+| **Lösenord** | dev |
+
+När du är inloggad:
+
+```bash
 cd ~/src
 pip install paho-mqtt
 python mqtt-listener.py
-ssh -p 2224 dev@localhost   # password dev
+```
+
+---
+
+### Klient 2 (Listener)
+
+Öppna en **ny terminal** och kör:
+
+```bash
+ssh -p 2224 dev@localhost
+```
+
+| Fält | Värde |
+|------|-------|
+| **Port** | 2224 |
+| **Användare** | dev |
+| **Lösenord** | dev |
+
+När du är inloggad:
+
+```bash
 cd ~/src
 pip install paho-mqtt
 python mqtt-listener.py
-Login to Broadcaster
-ssh -p 2222 dev@localhost   # password dev
+```
+
+---
+
+## 5. Logga in på Broadcaster
+
+Öppna en **ny terminal** och kör:
+
+```bash
+ssh -p 2222 dev@localhost
+```
+
+| Fält | Värde |
+|------|-------|
+| **Port** | 2222 |
+| **Användare** | dev |
+| **Lösenord** | dev |
+
+När du är inloggad:
+
+```bash
 cd ~/src
 pip install paho-mqtt
 python mqtt-broadcaster.py
-Rebuilding machines
+```
+
+> ✅ **Nu kan du skriva meddelanden i broadcaster-terminalen och se dem dyka upp i båda listener-terminalerna!**
+
+---
+
+## 6. Bygga om maskinerna
+
+### Alternativ 1: Snabb rebuild
+
+```bash
 docker compose up -d --build
-or
+```
+
+### Alternativ 2: Full rebuild (utan cache)
+
+```bash
+docker compose build --no-cache
+docker compose up -d
+```
+
+---
+
+## 🔧 Snabbreferens: SSH-portar
+
+| Container | Port | Användare | Lösenord | Roll |
+|-----------|------|-----------|----------|------|
+| Broadcaster | 2222 | dev | dev | Publisher |
+| Client 1 | 2223 | dev | dev | Listener/Subscriber |
+| Client 2 | 2224 | dev | dev | Listener/Subscriber |
+
+---
+
+## 🛑 Stoppa miljön
+
+```bash
+docker compose down
+```
+
+Ta bort allt (inklusive volymer):
+
+```bash
+docker compose down -v
+```
 
 docker compose build --no-cache
 docker compose up -d
