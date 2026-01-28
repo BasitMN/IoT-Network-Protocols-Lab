@@ -232,3 +232,40 @@ python mqtt-broadcaster.py
 - Python 3.x
 - `paho-mqtt` bibliotek: `pip install paho-mqtt`
 - MQTT Broker (t.ex. Mosquitto) på `192.168.2.100:1883`
+
+
+___________________________________________
+
+edu-python-in-docker
+Instructions
+Prepare
+cd ~
+cd ws
+git clone https://github.com/miwashi-edu/edu-python-in-docker.git
+cd edu-python-in-docker
+git checkout level-2
+docker compose up -d
+docker ps
+Check IP adreesses
+docker inspect iotnet # read the json produced
+Login to client
+Client 1
+ssh -p 2223 dev@localhost   # password dev
+cd ~/src
+pip install paho-mqtt
+python mqtt-listener.py
+ssh -p 2224 dev@localhost   # password dev
+cd ~/src
+pip install paho-mqtt
+python mqtt-listener.py
+Login to Broadcaster
+ssh -p 2222 dev@localhost   # password dev
+cd ~/src
+pip install paho-mqtt
+python mqtt-broadcaster.py
+Rebuilding machines
+docker compose up -d --build
+or
+
+docker compose build --no-cache
+docker compose up -d
